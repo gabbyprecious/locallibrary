@@ -31,6 +31,12 @@ class Book(models.Model):
     # Genre class has already been defined so we can specify the object above.
     genre = models.ManyToManyField(Genre, help_text='Select a genre for this book')
     
+    def display_genre(self):
+        """Create a string for the Genre. This is required to display genre in Admin."""
+        return ', '.join(genre.name for genre in self.genre.all()[:3])
+    
+    display_genre.short_description = 'Genre'
+    
     def __str__(self):
         """String for representing the Model object."""
         return self.title
@@ -64,7 +70,23 @@ class BookInstance(models.Model):
 
     class Meta:
         ordering = ['due_back']
-
+    
+    # def display_book(self):
+    #     """creating string to return book"""
+    #     return self.book
+    
+    # def display_due_back(self):
+    #     """creating string to return due date"""
+    #     return self.due_back
+    
+    # def display_status(self):
+    #     """creating string to return status"""
+    #     return self.status
+    
+    # def display_id(self):
+    #     """creating string to return id"""
+    #     return self.id
+    
     def __str__(self):
         """String for representing the Model object."""
         return f'{self.id} ({self.book.title})'
